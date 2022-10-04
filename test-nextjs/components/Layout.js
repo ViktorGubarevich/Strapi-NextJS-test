@@ -1,8 +1,9 @@
 import Head from "next/head";
+import { UserProvider } from "../lib/authContext";
 import Nav from "./Nav";
 
-const Layout = ({ children }) => (
-  <>
+const Layout = ({ user, loading = false, children }) => (
+  <UserProvider value={{ user, loading }}>
     <Head>
       <title>Post Database</title>
     </Head>
@@ -14,7 +15,7 @@ const Layout = ({ children }) => (
         <div className="text-2xl font-medium">{children}</div>
       </div>
     </main>
-  </>
+  </UserProvider>
 );
 
 export default Layout;

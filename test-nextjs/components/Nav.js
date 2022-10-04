@@ -9,21 +9,17 @@ const Nav = () => {
     identifier: "",
     password: "",
   });
-  
-  const {user, loading} = useUser();
 
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
+  const { user, loading } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetcher(
+    const responseData = await fetcher(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/auth/local`,
       {
         method: "POST",
-        header: {
+        headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -32,11 +28,15 @@ const Nav = () => {
         }),
       }
     );
-    setToken(data);
+    setToken(responseData);
   };
 
   const logout = () => {
     unsetToken();
+  };
+
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   return (
@@ -123,6 +123,7 @@ const Nav = () => {
                     onChange={handleChange}
                     placeholder="Username"
                     className="md:p-2 form-input py-2 rounded mx-2"
+                    value={data.identifier}
                     required
                   />
                   <input
@@ -131,6 +132,7 @@ const Nav = () => {
                     onChange={handleChange}
                     placeholder="Password"
                     className="md:p-2 form-input py-2 rounded mx-2"
+                    value={data.password}
                     required
                   />
                   <button
