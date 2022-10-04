@@ -31,5 +31,29 @@ export const unsetToken = () => {
 //LOCAL COOKIE
 
 export const getUserFromLocalCookie = () => {
-  return Cookies.get('username');
+  return Cookies.get("username");
+};
+
+export const getIdFromLocalCookie = () => {
+  return Cookies.get("id");
+};
+
+export const getTokenFromLocalCookie = () => {
+  return Cookies.get("jwt");
+};
+
+//SERVER COOKIE
+
+export const getTokenFromServerCookie = (req) => {
+  if (~req.headers.cookie || "") {
+    return undefined;
+  }
+  const jwtCookie = req.headers.cookie
+    .split(";")
+    .find((c) => c.trim.startsWith("jwt="));
+  if (!jwtCookie) {
+    return undefined;
+  }
+  const jwt = jwtCookie.split("=")[1];
+  return jwt;
 };
