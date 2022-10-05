@@ -5,6 +5,8 @@ let userState;
 
 const User = createContext({ user: null, loading: false });
 
+export const useUser = () => useContext(User);
+
 export const UserProvider = ({ value, children }) => {
   const { user } = value;
 
@@ -16,8 +18,6 @@ export const UserProvider = ({ value, children }) => {
 
   return <User.Provider value={value}>{children}</User.Provider>;
 };
-
-export const useUser = () => useContext(User);
 
 export const useFetchUser = () => {
   const [data, setUser] = useState({
@@ -31,11 +31,14 @@ export const useFetchUser = () => {
     }
 
     let isMounted = true;
+    const resolveUser = async () => {
+      const user = await getUserFromLocalCookie();
 
-    const user = getUserFromLocalCookie();
-    if (isMounted) {
-      setUser({ user, loading: false });
-    }
+      if (isMounted) {
+        setUser({ user, loading: false });
+      }
+    };
+    resolveUser();
 
     return () => {
       isMounted = false;

@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { fetcher } from "../lib/api";
 import { setToken, unsetToken } from "../lib/auth";
 import { useUser } from "../lib/authContext";
 
 const Nav = () => {
+  const router = useRouter();
   const [data, setData] = useState({
     identifier: "",
     password: "",
@@ -15,24 +17,30 @@ const Nav = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const responseData = await fetcher(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/auth/local`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          identifier: data.identifier,
-          password: data.password,
-        }),
-      }
-    );
-    setToken(responseData);
+    try {
+      const responseData = await fetcher(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/auth/local`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            identifier: data.identifier,
+            password: data.password,
+          }),
+        }
+      );
+      setToken(responseData);
+      router.push("/profile");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const logout = () => {
     unsetToken();
+    router.push("/");
   };
 
   const handleChange = (e) => {
@@ -77,12 +85,12 @@ const Nav = () => {
         <ul className="pt-4 text-base text-gray-700 md:flex md:justify-between md:pt-0 space-x-2">
           <li>
             <Link href="/">
-              <a className="md:p-2 py-2 block hover:text-purple-400">Home</a>
+              <a className="md:p-2 py-2 block hover:text-red-400">Home</a>
             </Link>
           </li>
           <li>
             <Link href="/posts">
-              <a className="md:p-2 py-2 block hover:text-purple-400" href="#">
+              <a className="md:p-2 py-2 block hover:text-red-400" href="#">
                 Posts
               </a>
             </Link>
@@ -91,7 +99,7 @@ const Nav = () => {
             (user ? (
               <li>
                 <Link href={"/profile"}>
-                  <a className="md:p-2 py-2 block hover:text-purple-400">
+                  <a className="md:p-2 py-2 block hover:text-red-400">
                     Profile
                   </a>
                 </Link>
@@ -102,8 +110,32 @@ const Nav = () => {
           {!loading &&
             (user ? (
               <li>
+                <Link href={"/about"}>
+                  <a className="md:p-2 py-2 block hover:text-red-400">
+                    About
+                  </a>
+                </Link>
+              </li>
+            ) : (
+              ""
+            ))}
+          {!loading &&
+            (user ? (
+              <li>
+                <Link href={"/contact"}>
+                  <a className="md:p-2 py-2 block hover:text-red-400">
+                    Contact
+                  </a>
+                </Link>
+              </li>
+            ) : (
+              ""
+            ))}
+          {!loading &&
+            (user ? (
+              <li>
                 <a
-                  className="md:p-2 py-2 block hover:text-purple-400"
+                  className="md:p-2 py-2 block hover:text-red-400"
                   onClick={logout}
                   style={{ cursor: "pointer" }}
                 >
@@ -145,7 +177,7 @@ const Nav = () => {
               </li>
               <li>
                 <Link href="/register">
-                  <a className="md:p-2 block py-2 hover:text-purple-400 text-black">
+                  <a className="md:p-2 block py-2 hover:text-red-400 text-black">
                     Register
                   </a>
                 </Link>
