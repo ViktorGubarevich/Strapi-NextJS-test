@@ -32,7 +32,7 @@ const Nav = () => {
         }
       );
       setToken(responseData);
-      router.push("/profile");
+      router.reload("/");
     } catch (error) {
       console.error(error);
     }
@@ -88,60 +88,50 @@ const Nav = () => {
               <a className="md:p-2 py-2 block hover:text-red-400">Home</a>
             </Link>
           </li>
-          <li>
-            <Link href="/posts">
-              <a className="md:p-2 py-2 block hover:text-red-400" href="#">
-                Posts
-              </a>
-            </Link>
-          </li>
           {!loading &&
             (user ? (
-              <li>
-                <Link href={"/profile"}>
-                  <a className="md:p-2 py-2 block hover:text-red-400">
-                    Profile
+              <>
+                <li>
+                  <Link href="/posts">
+                    <a
+                      className="md:p-2 py-2 block hover:text-red-400"
+                      href="#"
+                    >
+                      Posts
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/profile"}>
+                    <a className="md:p-2 py-2 block hover:text-red-400">
+                      Profile
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/about"}>
+                    <a className="md:p-2 py-2 block hover:text-red-400">
+                      About
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"/contact"}>
+                    <a className="md:p-2 py-2 block hover:text-red-400">
+                      Contact
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    className="md:p-2 py-2 block hover:text-red-400"
+                    onClick={logout}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Logout
                   </a>
-                </Link>
-              </li>
-            ) : (
-              ""
-            ))}
-          {!loading &&
-            (user ? (
-              <li>
-                <Link href={"/about"}>
-                  <a className="md:p-2 py-2 block hover:text-red-400">
-                    About
-                  </a>
-                </Link>
-              </li>
-            ) : (
-              ""
-            ))}
-          {!loading &&
-            (user ? (
-              <li>
-                <Link href={"/contact"}>
-                  <a className="md:p-2 py-2 block hover:text-red-400">
-                    Contact
-                  </a>
-                </Link>
-              </li>
-            ) : (
-              ""
-            ))}
-          {!loading &&
-            (user ? (
-              <li>
-                <a
-                  className="md:p-2 py-2 block hover:text-red-400"
-                  onClick={logout}
-                  style={{ cursor: "pointer" }}
-                >
-                  Logout
-                </a>
-              </li>
+                </li>
+              </>
             ) : (
               ""
             ))}

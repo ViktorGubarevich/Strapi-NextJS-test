@@ -8,7 +8,9 @@ const Posts = ({ posts }) => {
           posts.data.map((post) => {
             return (
               <li key={post.id}>
-                <Link href={`post/` + post.attributes.slug}>{post.attributes.title}</Link>
+                <Link href={`post/` + post.attributes.slug}>
+                  {post.attributes.title}
+                </Link>
               </li>
             );
           })}

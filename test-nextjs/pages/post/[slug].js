@@ -46,7 +46,7 @@ const Post = ({ post, jwt, info, error }) => {
   if (error) {
     return (
       <Layout>
-        <p>{error}</p>
+        <p>Page not found</p>
       </Layout>
     );
   } else {

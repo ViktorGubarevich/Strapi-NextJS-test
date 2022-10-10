@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="p-4 bg-white md:flex md:items-center md:justify-between md:p-6 text-lg text-gray-700">
+    <footer className="p-4 bg-white md:flex md:items-center md:justify-between text-lg text-gray-700">
       <span className="text-lg text-gray-700 sm:text-center dark:text-gray-400">
         © 2022 Strapi and Next JS.
       </span>
