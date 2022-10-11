@@ -8,6 +8,7 @@ import {
 } from "../../lib/auth";
 import { useFetchUser } from "../../lib/authContext";
 import markdownToHtml from "../../lib/markdownToHtml";
+import Link from "next/link";
 
 const Post = ({ post, jwt, info, error }) => {
   const { user, loading } = useFetchUser();
@@ -52,28 +53,40 @@ const Post = ({ post, jwt, info, error }) => {
   } else {
     return (
       <Layout user={user}>
-        <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter mb-4">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400 py-2">
-            {post.attributes.title}
-          </span>
-        </h1>
-        <p>
-          Publication by{" "}
-          <span className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
-            {post.attributes.edition}
-          </span>
-        </p>
-        <h2 className="text-3xl md:text-4xl font-extrabold leading-tighter mb-4 mt-4">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400 py-2">
-            Information
-          </span>
-        </h2>
-        <div
-          className="tracking-wid font-normal text-sm"
-          dangerouslySetInnerHTML={{ __html: info }}
-        ></div>
+        {!user && (
+          <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter mb-4">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
+              Please, go to authorization or{" "}
+              <Link href="/register">
+                <a className="block py-2 hover:text-red-400 text-black">
+                  registration!
+                </a>
+              </Link>
+            </span>
+          </h1>
+        )}
         {user && (
           <>
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter mb-4">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400 py-2">
+                {post.attributes.title}
+              </span>
+            </h1>
+            <p>
+              Publication by{" "}
+              <span className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
+                {post.attributes.edition}
+              </span>
+            </p>
+            <h2 className="text-3xl md:text-4xl font-extrabold leading-tighter mb-4 mt-4">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400 py-2">
+                Information
+              </span>
+            </h2>
+            <div
+              className="tracking-wid font-normal text-sm"
+              dangerouslySetInnerHTML={{ __html: info }}
+            ></div>
             <h2 className="text-3xl md:text-4xl font-extrabold leading-tighter mb-4 mt-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400 py-2">
                 Reviews
